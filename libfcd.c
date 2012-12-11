@@ -30,6 +30,7 @@
 #endif
 #include "libfcd.h"
 #include <stdio.h>
+#include <unistd.h>
 
 const unsigned short _usVID[] = {0x04D8, 0x04D8};  /*!< USB vendor ID enumerated by FCD_MODEL_ENUM */
 const unsigned short _usPID[] = {0xFB56, 0xFB31};  /*!< USB product ID enumerated by FCD_MODEL_ENUM */
@@ -620,10 +621,14 @@ EXTERN FCD_API_EXPORT FCD_API_CALL FCD_RETCODE_ENUM fcdAppSetParam(fcdDesc *fcd,
 
     /* we must read after each write in order to empty FCD/HID buffer */
     memset(aucBufIn,0xCC,65); // Clear out the response buffer
-    WRAPPED_HID_READ(fcd->phd,aucBufIn,65);
+    //    usleep(10000);
+    //    WRAPPED_HID_READ(fcd->phd,aucBufIn,65);
+    hid_read(fcd->phd,aucBufIn,65);
 
     /* Check the response, if OK return FCD_MODE_APP */
     if (aucBufIn[0]==u8Cmd && aucBufIn[1]==1) {
+      if (u8Cmd == FCD_CMD_APP_SET_FREQ_HZ)
+	memcpy(pu8Data, &aucBufIn[2], u8len);
       return FCD_RETCODE_OKAY;
     }
 
@@ -664,10 +669,13 @@ EXTERN FCD_API_EXPORT FCD_API_CALL FCD_RETCODE_ENUM fcdAppGetParam(fcdDesc *fcd,
 
     aucBufOut[0]=0; // Report ID, ignored
     aucBufOut[1]=u8Cmd;
+    usleep(10000);
     hid_write(fcd->phd,aucBufOut,65);
 
     memset(aucBufIn,0xCC,65); // Clear out the response buffer
-    WRAPPED_HID_READ(fcd->phd,aucBufIn,65);
+    //    WRAPPED_HID_READ(fcd->phd,aucBufIn,65);
+    hid_read(fcd->phd,aucBufIn,65);
+
     /* Copy return data to output buffer (even if cmd exec failed) */
     memcpy(pu8Data,aucBufIn+2,u8len);
 

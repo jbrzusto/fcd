@@ -168,7 +168,7 @@ main(int argc, char **argv)
 	  if (FCD_RETCODE_OKAY != fcdOpen(&fcd, serialNum, enumNum, usbPath)) {
 	    break;
 	  }
-	  printf("Model: %s; enum: %2d; serial: %6d; path: %s\n", fcd.pszModelName, fcd.enumNum, fcd.serialNum, fcd.pszPath);
+	  printf("Model: %12s; enum: %2d; serial: %6d; path: %s\n", fcd.pszModelName, fcd.enumNum, fcd.serialNum, fcd.pszPath);
 	  fcdClose(&fcd);
 	}	    
 	exit(0);

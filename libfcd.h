@@ -86,7 +86,7 @@ extern "C" {
 
   /* hidapi read timeout parameteqrs */
 
-#define WRAPPED_HID_READ_SINGLE_TIMEOUT 10 // milliseconds
+#define WRAPPED_HID_READ_SINGLE_TIMEOUT 100 // milliseconds
 #define WRAPPED_HID_READ_MAX_COUNT 10 // number of times to try a read
 
   /* Application functions */
