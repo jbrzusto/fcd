@@ -6,24 +6,24 @@ all:	libfcd.a fcd testfcd semtool
 
 # hidraw version:
 
-# libfcd.a:	libfcd.h libfcd.c hidapi.h hid.c Makefile
-# 	gcc $(GCC_OPTIONS) -c  -I$(LIBUSB_INCLUDE_PATH) -o libfcd.o libfcd.c
-# 	gcc $(GCC_OPTIONS) -c  -I$(LIBUSB_INCLUDE_PATH) -o hid.o hid.c
-# 	ar rcs libfcd.a libfcd.o hid.o
+libfcd.a:	libfcd.h libfcd.c hidapi.h hid.c Makefile
+	gcc $(GCC_OPTIONS) -c  -I$(LIBUSB_INCLUDE_PATH) -o libfcd.o libfcd.c
+	gcc $(GCC_OPTIONS) -c  -I$(LIBUSB_INCLUDE_PATH) -o hid.o hid.c
+	ar rcs libfcd.a libfcd.o hid.o
 
-# fcd: libfcd.a fcd.c Makefile
-# 	gcc $(GCC_OPTIONS) -o fcd fcd.c  -L. -lfcd -ludev
+fcd: libfcd.a fcd.c Makefile
+	gcc $(GCC_OPTIONS) -o fcd fcd.c  -L. -lfcd -ludev
 
 #
 # libusb version:
 
-libfcd.a:	libfcd.h libfcd.c hidapi.h hid-libusb.c Makefile
-	gcc $(GCC_OPTIONS) -c  -I$(LIBUSB_INCLUDE_PATH) -o libfcd.o libfcd.c  -lusb-1.0
-	gcc $(GCC_OPTIONS) -c  -I$(LIBUSB_INCLUDE_PATH) -o hid-libusb.o hid-libusb.c -lusb-1.0
-	ar rcs libfcd.a libfcd.o hid-libusb.o
+# libfcd.a:	libfcd.h libfcd.c hidapi.h hid-libusb.c Makefile
+# 	gcc $(GCC_OPTIONS) -c  -I$(LIBUSB_INCLUDE_PATH) -o libfcd.o libfcd.c  -lusb-1.0
+# 	gcc $(GCC_OPTIONS) -c  -I$(LIBUSB_INCLUDE_PATH) -o hid-libusb.o hid-libusb.c -lusb-1.0
+# 	ar rcs libfcd.a libfcd.o hid-libusb.o
 
-fcd: libfcd.a fcd.c Makefile
-	gcc $(GCC_OPTIONS) -o fcd fcd.c -I$(LIBUSB_INCLUDE_PATH) -I. -L. -lfcd -lusb-1.0 -lpthread -ludev
+# fcd: libfcd.a fcd.c Makefile
+# 	gcc $(GCC_OPTIONS) -o fcd fcd.c -I$(LIBUSB_INCLUDE_PATH) -I. -L. -lfcd -lusb-1.0 -lpthread -ludev
 
 testfcd: libfcd.a testfcd.c Makefile
 	gcc $(GCC_OPTIONS) -o testfcd testfcd.c -I$(LIBUSB_INCLUDE_PATH) -I. -L. -lfcd -ludev
